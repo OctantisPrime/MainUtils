@@ -13,7 +13,7 @@ import com.octantis.prime.android.util.utilsmain.run.type.MML
 class FormAdapter(
     private val context: Context, data: MML
 ) : FormMainAdapter(context, data) {
-    private var title = ObservableField("")
+    var title = ObservableField("asdasd")
     private lateinit var v: RecycleItemAdapterBinding
     override fun initView(parent: ViewGroup): ViewDataBinding {
         v = RecycleItemAdapterBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -21,8 +21,8 @@ class FormAdapter(
     }
 
     override fun bindingView(holder: ViewHolder, position: Int) {
-        holder.itemView
-        v.title = title
+        v.adapter = this
+        title.set("asdsadsadasdasdasdasdasdsadasd")
         title.set(position.toString())
     }
 }
