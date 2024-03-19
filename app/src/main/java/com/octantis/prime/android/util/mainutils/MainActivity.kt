@@ -1,6 +1,7 @@
 package com.octantis.prime.android.util.mainutils
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -10,10 +11,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.octantis.prime.android.util.mainutils.dialog.SelectDialog
 import com.octantis.prime.android.util.utilsmain.run.AesUtil
 import com.octantis.prime.android.util.utilsmain.run.RunUtil
 import com.octantis.prime.android.util.utilsmain.run.form.FormUtils
 import com.octantis.prime.android.util.utilsmain.run.http.HttpUtil
+import com.octantis.prime.android.util.utilsmain.run.inf.BackMMM
 import com.octantis.prime.android.util.utilsmain.run.init.MainInit
 import com.octantis.prime.android.util.utilsmain.run.type.MMM
 
@@ -34,12 +37,32 @@ class MainActivity : AppCompatActivity() {
     private fun test() {
         val rb = findViewById<RecyclerView>(R.id.rv)
         val data = mutableListOf<MMM>()
-        data.add(mutableMapOf())
-        data.add(mutableMapOf())
-        data.add(mutableMapOf())
 
-        rb.layoutManager = LinearLayoutManager(this)
-        rb.adapter = FormAdapter(this, data = data)
+        val showData = mutableListOf<MMM>()
+        for (i in 0 until 16) {
+            val mmm = mutableMapOf<String, Any>()
+            mmm["name"] = i.toString()
+            mmm["color"] = "$i color"
+            showData.add(mmm)
+        }
+
+        val dia = SelectDialog(this, showData, "hhh", null, "name")
+        dia.backSelect(object : BackMMM {
+            override fun info(info: MMM) {
+                dia.dismiss()
+                Log.e("asd", info.toString())
+            }
+        })
+        dia.show()
+
+//
+//        data.add(mutableMapOf())
+//        data.add(mutableMapOf())
+//        data.add(mutableMapOf())
+//
+//        rb.layoutManager = LinearLayoutManager(this)
+//        val adapter = FormAdapter(this, data)
+//        rb.adapter = adapter
 
 
     }
