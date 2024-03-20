@@ -91,9 +91,9 @@ abstract class SelectMainDialog<V : ViewDataBinding>(
                                 showList.add(itemData)
                             }
                         }
-                        bodyView.adapter =  setRecycleView(showList)
+                        setRecycleView(showList)
                     } else {
-                        bodyView.adapter =  setRecycleView(data)
+                        setRecycleView(data)
                     }
                     return false
                 }
@@ -119,7 +119,12 @@ abstract class SelectMainDialog<V : ViewDataBinding>(
                 searchView.visibility = View.GONE
             }
         }
-        bodyView.adapter =  setRecycleView(data)
+        setRecycleView(data)
+    }
+
+    fun setRecycleView(showData: MML) {
+        val adapter = initRecycleView(showData)
+        bodyView.adapter = adapter
     }
 
     /**
@@ -127,6 +132,6 @@ abstract class SelectMainDialog<V : ViewDataBinding>(
      * 返回体自己定义
      * @param showData MutableList<MutableMap<String, Any>> 返回数据类型
      */
-    abstract fun setRecycleView(showData: MML): Adapter<*>
+    abstract fun initRecycleView(showData: MML): Adapter<*>
 
 }

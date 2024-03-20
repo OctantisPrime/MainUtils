@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -9,11 +10,124 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/asd"
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginHorizontal="10dp"
+            android:background="@color/black"
+            android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
+            android:scaleType="center" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"
+                android:paddingVertical="5dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="5dp"
+                android:text="name"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/select"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/title"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:textColor="@color/black"
+                android:hint="Por favor, seleccione"
+                android:padding="10dp"
+                android:textColorHint="#818181"
+                android:textSize="15sp"
+                app:drawableBottomCompat="@color/black" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone" />
+
+            <RadioGroup
+                android:id="@+id/form_bank_gr"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/form_bank_left"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:paddingVertical="25dp"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/form_bank_right"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingVertical="25dp"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RadioGroup>
+
+            <EditText
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@id/rv"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:elevation="3dp"
+                android:hint="Por favor, introduzca"
+                android:padding="10dp"
+                android:textColorHint="#818181"
+                android:textSize="15sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/bankTip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text"
+                android:layout_marginHorizontal="15dp"
+                android:text="Por favor proporcione la información de la cuenta bancaria emitida por su documento de identidad personal, de lo contrario no podrá recibir el préstamo."
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </LinearLayout>
     </LinearLayout>
 </layout>

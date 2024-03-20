@@ -30,7 +30,7 @@ class SelectDialog(
         return v.title
     }
 
-    override fun setRecycleView(showData: MML): RecyclerView.Adapter<*> {
+    override fun initRecycleView(showData: MML): RecyclerView.Adapter<*> {
         val adapter = SelectAdapter(showData, nameKey, null)
         adapter.backSelect(object : BackMMM {
             override fun info(info: MMM) {

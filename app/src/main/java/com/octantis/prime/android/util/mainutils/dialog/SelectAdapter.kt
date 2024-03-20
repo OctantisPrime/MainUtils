@@ -14,11 +14,10 @@ import com.octantis.prime.android.util.utilsmain.run.type.MML
  */
 class SelectAdapter(data: MML, nameKey: String, colorKey: String?) :
     SelectMainAdapter<SelectItemBinding>(
-        data,
-        nameKey, colorKey
+        data, nameKey, colorKey
     ) {
-    override fun showTitleView(): TextView {
-        return v.name
+    override fun showTitleView(view: SelectItemBinding): TextView {
+        return view.name
     }
 
     override fun getLayoutId(): Int {

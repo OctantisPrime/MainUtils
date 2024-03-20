@@ -6,7 +6,6 @@ import androidx.databinding.ViewDataBinding
 import com.octantis.prime.android.util.utilsmain.run.inf.BackMMM
 import com.octantis.prime.android.util.utilsmain.run.main.MainAdapter
 import com.octantis.prime.android.util.utilsmain.run.type.MML
-import com.octantis.prime.android.util.utilsmain.run.type.MMM
 
 abstract class SelectMainAdapter<V : ViewDataBinding>(
     private val data: MML,
@@ -19,18 +18,18 @@ abstract class SelectMainAdapter<V : ViewDataBinding>(
         this.backSelect = backSelect
     }
 
-    abstract fun showTitleView(): TextView
+    abstract fun showTitleView(view:V): TextView
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         val itemInfo = data[position]
-        showTitleView().text = itemInfo[nameKey] as String? ?: ""
+        showTitleView(holder.bind).text = itemInfo[nameKey] as String? ?: ""
         colorKey?.apply {
             val color = itemInfo[this] as String? ?: ""
             if (color.isNotEmpty()) {
-                showTitleView().setTextColor(color.toColorInt())
+                showTitleView(holder.bind).setTextColor(color.toColorInt())
             }
         }
-        showTitleView().setOnClickListener {
+        showTitleView(holder.bind).setOnClickListener {
             backSelect.info(data[position])
         }
     }

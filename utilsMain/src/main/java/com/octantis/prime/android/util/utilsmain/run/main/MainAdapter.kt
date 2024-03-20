@@ -6,20 +6,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
-import androidx.viewbinding.ViewBinding
 
 abstract class MainAdapter<V : ViewDataBinding>(private val data: MutableList<*>) :
-    Adapter<MainAdapter.ViewHolder>() {
-    protected lateinit var v: V
+    Adapter<MainAdapter<V>.MainViewHolder>() {
+    inner class MainViewHolder(var bind: V) : RecyclerView.ViewHolder(bind.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        v = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            getLayoutId(),
-            parent,
-            false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        val v = DataBindingUtil.inflate<V>(
+            LayoutInflater.from(parent.context), getLayoutId(), parent, false
         )
-        return ViewHolder(v)
+        return MainViewHolder(v)
     }
 
     override fun getItemCount(): Int {
@@ -27,6 +23,5 @@ abstract class MainAdapter<V : ViewDataBinding>(private val data: MutableList<*>
     }
 
     abstract fun getLayoutId(): Int
-    class ViewHolder(itemView: ViewBinding) : RecyclerView.ViewHolder(itemView.root)
 
 }
