@@ -18,6 +18,10 @@ class SelectDialog(
 ) : SelectMainDialog<SelectDialogBinding>(
     context, data, title, id, nameKey
 ) {
+    init {
+        super.setCancelable(true)
+    }
+
     override fun setSearchView(): SearchView {
         return v.search
     }

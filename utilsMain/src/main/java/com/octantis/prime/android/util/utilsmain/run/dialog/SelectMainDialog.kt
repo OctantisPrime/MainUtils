@@ -36,7 +36,6 @@ abstract class SelectMainDialog<V : ViewDataBinding>(
 
     init {
         super.setContentView(v.root)
-        super.setCancelable(true)
         baseType(v.root, 0.3F, 1F)
     }
 
@@ -51,6 +50,7 @@ abstract class SelectMainDialog<V : ViewDataBinding>(
         setTitleView()?.apply {
             titleView = this
         }
+        canCancelable()
         initSearch()
         initView()
     }

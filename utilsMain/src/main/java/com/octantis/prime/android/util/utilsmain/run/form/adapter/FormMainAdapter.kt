@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.blankj.utilcode.util.LogUtils
 import com.blankj.utilcode.util.RegexUtils
-import com.blankj.utilcode.util.ToastUtils
 import com.octantis.prime.android.util.utilsmain.run.EditUtils
 import com.octantis.prime.android.util.utilsmain.run.inf.BackMMM
 import com.octantis.prime.android.util.utilsmain.run.main.MainAdapter
@@ -85,8 +84,16 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
         return InitFormView()
     }
 
+    fun initFFontColor(on: Int, off: Int): InitFontColor {
+        this.colorOn = on
+        this.colorOff = off
+        return InitFontColor()
+    }
+
+
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        onViewInit(holder.bind)
+        onInitViewBinding(holder.bind)
+        onInitFontColor()
         rvView.layoutManager = LinearLayoutManager(context)
         val itemData = data[position]
         val isRequired = itemData["required"] as Boolean? ?: true
@@ -99,7 +106,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
         val itemVisible = itemData["itemVisible"] as String? ?: ""
         initVisible()
         setView(itemData, itemValue, itemVisible, position)
-        if (!initIcon(itemData["id"] as String? ?: "")) {
+        if (!onInitIcon(itemData["id"] as String? ?: "")) {
             iconView.visibility = View.GONE
         }
     }
@@ -138,6 +145,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
         val type = itemData["type"] as String? ?: ""
         val id = itemData["id"] as String? ?: ""
 
+        // 消除边距异常
         if (id.contains("payDate")) {
             if (id.contains("type")) {
                 rootView.setPadding(0, 5, 0, 0)
@@ -147,9 +155,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
         }
 
         when (type) {
-            /**
-             * 选择框
-             */
+            // 选择框
             "select" -> {
                 if (id == "payDate.weekDay") {
                     if (itemVisible == "V") {
@@ -274,7 +280,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
                 }
 
                 selectView.setOnClickListener {
-                    val workBackInfo = showWorkDialog(workInfo)
+                    val workBackInfo = onShowWorkDialog(workInfo)
                     backListener.backInfo(id, workBackInfo.info as Any)
                     setData(position, workBackInfo.name, true)
                 }
@@ -296,7 +302,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
                 }
 
                 selectView.setOnClickListener {
-                    val addressInfo = showAddressDialog()
+                    val addressInfo = onShowAddressDialog()
                     backListener.backInfo(id, addressInfo.info as Any)
                     setData(position, addressInfo.name, true)
                 }
@@ -449,7 +455,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
     private fun onClick(id: String, name: String, opts: MML, position: Int) {
         // select 类型事件
         selectView.setOnClickListener {
-            showClickDialog(context, opts, position, name, id)
+            onShowClickDialog(context, opts, position, name, id)
         }
     }
 
@@ -477,7 +483,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
                             setData(position, text, false)
                             if (!RegexUtils.isEmail(text) && text.isNotEmpty() && !text.contains("@")) {
                                 emailRv.visibility = View.VISIBLE
-                                emailRv.adapter = initEmailAdapter()
+                                emailRv.adapter = onInitEmailAdapter()
 
 //                                val adapter = EmailAdapter(text, CCC.email)
 //                                adapter.getEmailInfo(object : EmailAdapter.EmailBack {
@@ -551,17 +557,6 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
         this.dataBack = data
     }
 
-    // 家族
-    /**
-     * 资源ID
-     * @param off Int Select 未选中颜色
-     * @param on Int Select 选中颜色
-     */
-    protected fun initShowAsset(off: Int, on: Int) {
-        this.colorOff = off
-        this.colorOn = on
-    }
-
     // 本地
     /**
      * 设置 value
@@ -607,25 +602,25 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
      * 实现 Email Adapter 的方法
      * @return RecyclerView.Adapter<*>
      */
-    protected abstract fun initEmailAdapter(): RecyclerView.Adapter<*>
+    protected abstract fun onInitEmailAdapter(): RecyclerView.Adapter<*>
 
     /**
      * 实现工作信息 Dialog
      * @param workInfo MutableList<*>? 缓存 Work 信息
      */
-    protected abstract fun showWorkDialog(workInfo: MutableList<*>?): WorkBackInfo
+    protected abstract fun onShowWorkDialog(workInfo: MutableList<*>?): WorkBackInfo
 
 
     /**
      * 实现地址信息 Dialog
      */
-    protected abstract fun showAddressDialog(): AddressBackInfo
+    protected abstract fun onShowAddressDialog(): AddressBackInfo
 
     /**
      * 初始化 IconView
      * @param id String
      */
-    protected abstract fun initIcon(id: String): Boolean
+    protected abstract fun onInitIcon(id: String): Boolean
 
     /**
      * 实现基础点击事件的Dialog
@@ -635,7 +630,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
      * @param title String
      * @param id String
      */
-    protected abstract fun showClickDialog(
+    protected abstract fun onShowClickDialog(
         context: Context, listData: MML, position: Int, title: String, id: String
     )
 
@@ -643,7 +638,13 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
      * 初始化和绑定 Adapter View Binding
      * @return InitFormView
      */
-    protected abstract fun onViewInit(view: V): InitFormView
+    protected abstract fun onInitViewBinding(view: V): InitFormView
+
+    /**
+     * 初始化文字输入颜色
+     * @return InitFontColor
+     */
+    protected abstract fun onInitFontColor(): InitFontColor
 
 
     // 接口
@@ -670,6 +671,7 @@ abstract class FormMainAdapter<V : ViewDataBinding>(
 
     // 实体
     class InitFormView
+    class InitFontColor
 
     /**
      * 工作返回体

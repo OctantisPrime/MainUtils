@@ -12,15 +12,13 @@ import com.octantis.prime.android.util.utilsmain.run.type.MMM
 class FormAdapter(
     context: Context, data: MML
 ) : FormMainAdapter<RecycleItemAdapterBinding>(context, data) {
-    init {
-        initShowAsset(R.color.black, R.color.black)
-    }
+    private lateinit var selectDialog: SelectDialog
 
-    override fun initIcon(id: String): Boolean {
+    override fun onInitIcon(id: String): Boolean {
         return false
     }
 
-    override fun onViewInit(view: RecycleItemAdapterBinding): InitFormView {
+    override fun onInitViewBinding(view: RecycleItemAdapterBinding): InitFormView {
         return initLayoutView(
             rootView = view.root,
             iconView = view.icon,
@@ -35,10 +33,10 @@ class FormAdapter(
         )
     }
 
-    override fun showClickDialog(
+    override fun onShowClickDialog(
         context: Context, listData: MML, position: Int, title: String, id: String
     ) {
-        val selectDialog = SelectDialog(context, listData, title, id, "name")
+        selectDialog = SelectDialog(context, listData, title, id, "name")
         selectDialog.backSelect(object : BackMMM {
             override fun info(info: MMM) {
                 selectDialog.dismiss()
@@ -48,18 +46,22 @@ class FormAdapter(
         selectDialog.show()
     }
 
-    override fun initEmailAdapter(): RecyclerView.Adapter<*> {
+    override fun onInitFontColor(): InitFontColor {
+        return initFFontColor(R.color.black, R.color.black)
+    }
+
+    override fun onInitEmailAdapter(): RecyclerView.Adapter<*> {
         TODO("Not yet implemented")
     }
 
-    override fun showWorkDialog(workInfo: MutableList<*>?): WorkBackInfo {
+    override fun onShowWorkDialog(workInfo: MutableList<*>?): WorkBackInfo {
         val backInfo = WorkBackInfo()
         backInfo.info = mutableMapOf()
         backInfo.name = "a address"
         return backInfo
     }
 
-    override fun showAddressDialog(): AddressBackInfo {
+    override fun onShowAddressDialog(): AddressBackInfo {
         val backInfo = AddressBackInfo()
         backInfo.info = mutableMapOf()
         backInfo.name = "a work"

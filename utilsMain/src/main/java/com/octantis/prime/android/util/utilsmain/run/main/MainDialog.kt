@@ -22,6 +22,11 @@ abstract class MainDialog<V : ViewDataBinding>(context: Context) : Dialog(contex
         initViewBinding()
     }
 
+    fun canCancelable() {
+        setCancelable(true)
+        setCanceledOnTouchOutside(true)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(setContentView())
@@ -31,7 +36,7 @@ abstract class MainDialog<V : ViewDataBinding>(context: Context) : Dialog(contex
         v = DataBindingUtil.inflate(layoutInflater, getLayoutId(), null, false)
     }
 
-    abstract fun setContentView():View
+    abstract fun setContentView(): View
 
     abstract fun getLayoutId(): Int
 

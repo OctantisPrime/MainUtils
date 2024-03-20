@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
             val info = mutableMapOf<String, Any>()
             info["name"] = "第 $i 个元素"
             info["type"] = "select"
-            info["itemValue"] = "$i"
             info["id"] = "select.$i"
             val options = mutableListOf<MMM>()
             for (j in 0 until 3) {
@@ -87,7 +86,6 @@ class MainActivity : AppCompatActivity() {
             override fun backName(name: String) {
                 Log.e("asdasdasd", name)
             }
-
         })
         v.rv.layoutManager = LinearLayoutManager(this)
         v.rv.adapter = adapter
